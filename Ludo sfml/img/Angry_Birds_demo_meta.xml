@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <identifier>Angry_Birds_demo</identifier>
+  <collection>genesisvariations</collection>
+  <description> Angry Birds demo</description>
+  <emulator>genesis</emulator>
+  <emulator_ext>bin</emulator_ext>
+  <language>eng</language>
+  <mediatype>software</mediatype>
+  <scanner>Internet Archive Python library 2.3.0</scanner>
+  <title> Angry Birds demo</title>
+  <uploader>sketch@cow.net</uploader>
+  <publicdate>2022-10-30 01:46:45</publicdate>
+  <addeddate>2022-10-30 01:46:45</addeddate>
+  <notes>&lt;b&gt;Sega Genesis/Megadrive Controls:&lt;/b&gt;&lt;p&gt;Press the &lt;b&gt;1&lt;/b&gt; key to start games. Use &lt;b&gt;Arrow Keys&lt;/b&gt; to move up, left, right and down. There are three buttons, A, B and C, which are &lt;b&gt;CONTROL&lt;/b&gt;, &lt;b&gt;ALT/OPTION&lt;/b&gt; and &lt;b&gt;SPACE&lt;/b&gt;.&lt;/p&gt;</notes>
+  <collection>sega_genesis_library</collection>
+  <collection>consolelivingroom</collection>
+  <collection>emulation</collection>
+</metadata>
