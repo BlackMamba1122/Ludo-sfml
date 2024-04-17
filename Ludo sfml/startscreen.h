@@ -1,5 +1,5 @@
 #pragma once
-void StartScreen(sf::RenderWindow& window)
+void StartScreen(sf::RenderWindow& window,bool &continu)
 {
 	window.clear(sf::Color::White);
 
@@ -20,6 +20,12 @@ void StartScreen(sf::RenderWindow& window)
 		textures.push_back(texture);
 	}
 
+	sf::Texture conti;
+	conti.loadFromFile("cont.png");
+	sf::Sprite cont;
+	cont.setTexture(conti);
+	cont.setPosition(1350.f, 590.f);
+	cont.setScale(0.2f, 0.2f);
 	int frame = 0;
 	float frameRate = 0.4f;
 	sf::Clock clock;
@@ -33,6 +39,12 @@ void StartScreen(sf::RenderWindow& window)
 				window.close();
 			else if (event.type == sf::Event::MouseButtonPressed)
 			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				if (cont.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos)))
+				{
+					continu =true;
+					return;
+				}
 				if (event.mouseButton.button == sf::Mouse::Left)
 					return;
 			}
@@ -49,7 +61,7 @@ void StartScreen(sf::RenderWindow& window)
 		sf::Sprite sprite(textures[frame]);
 		sprite.setScale(window.getSize().x / sprite.getLocalBounds().width, window.getSize().y / sprite.getLocalBounds().height);
 		window.draw(sprite);
-
+		window.draw(cont);
 		window.display();
 	}
 }

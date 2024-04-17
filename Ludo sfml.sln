@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34526.213
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Ludo sfml", "Ludo sfml\Ludo sfml.vcxproj", "{CE34BBA0-1FAD-4480-9B0E-FFCEF0B9558E}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{13F4E17C-863E-4668-BFD5-3E70EE4F9AB4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

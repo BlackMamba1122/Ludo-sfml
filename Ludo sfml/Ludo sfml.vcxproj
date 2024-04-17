@@ -159,9 +159,15 @@ sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="pieceselect.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="playerselect.h" />
+    <ClInclude Include="save.h" />
+    <ClInclude Include="saveread.h" />
+    <ClInclude Include="saveread2.h" />
     <ClInclude Include="startscreen.h" />
     <ClInclude Include="teamselect.h" />
     <ClInclude Include="type.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="info.bin" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

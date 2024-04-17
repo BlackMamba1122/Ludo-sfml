@@ -8,9 +8,10 @@
 #include "playerselect.h"
 #include "pieceselect.h"
 #include "teamselect.h"
+#include "save.h"
+#include "saveread.h"
 
-//#include
-void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_size)
+void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_size,bool continu)
 {
 	Dice dic;
 	sf::RectangleShape shape1(sf::Vector2f(48.0f, 38.0f));
@@ -152,6 +153,13 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 	vector<sf::Sprite*> playerSprites = { &player1,&player2, &player3, &player4, &player5, &player6 };
 	vector<sf::Sprite*> playerSprites_temp;
 
+	int turn = 0;
+
+	if (continu)
+		save_read(team_size,playernum, piecenum, turn);
+	board b = main1(playernum, piecenum);
+	if (continu)
+		save_read2(b);
 	for (auto& psprite : playerSprites)
 	{
 		psprite->setPosition(1550.f, 250.f);
@@ -179,12 +187,10 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 	sh.setTexture(&boardd);
 	window.clear(sf::Color::Magenta);
 	//////////////////////////////////////////
-	board b = main1(playernum, piecenum);
 	sf::Clock diceAnimationTimer;
 	bool isAnimating = false;
 	bool isSound = false;
 	//////////////////////////////////////////
-	int turn = 0;
 	int position = 1;
 	vector<sf::Sprite*> playerPiece;
 	bool nextplayer = true;
@@ -225,7 +231,10 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 		while (window.pollEvent(event))
 		{
 			if (event.type == sf::Event::Closed && dic.Dice_Num() == 0)
+			{
+				save(b,team_size,piecenum,turn);
 				window.close();
+			}
 		}
 		for (auto& sprite : playerPiece)
 		{
@@ -394,7 +403,7 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 		}
 		if (position == playernum)
 			break;
-		if (diceAnimationTimer.getElapsedTime().asSeconds() <= 1.1f && isAnimating)
+		if (diceAnimationTimer.getElapsedTime().asSeconds() <= 0.3f && isAnimating)
 		{
 			animate.update(0, deltatime);//xyz
 			dicee.setTextureRect(animate.uvrect);//xyz
@@ -427,23 +436,24 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 			dic3.setTextureRect(sf::IntRect(dice_size.x * (dic[2] - 1), dice_size.y * 1, dice_size.x, dice_size.y));
 			window.draw(dic3);
 		}
-
-
 		window.display();
 	}
-
 }
 int main()
 {
 	int playernum = 6;
 	int piecenum = 3;
 	int team_size = 1;
+	bool continu = false;
 	sf::RenderWindow window(sf::VideoMode(1700, 950), "LUDO", sf::Style::Close);
-	StartScreen(window);
-	PlayerSelect(window,playernum);
-	PieceSelect(window,piecenum);
+	StartScreen(window,continu);
+	if (!continu)
+	{
+		PlayerSelect(window,playernum);
+		PieceSelect(window,piecenum);
 	if(playernum == 4 || playernum == 6)
 		SingMultSelect(window, team_size);
-	startGame(window, playernum, piecenum,team_size);
+	}
+	startGame(window, playernum, piecenum,team_size,continu);
 	return 0;
 }

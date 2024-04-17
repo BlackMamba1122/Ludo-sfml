@@ -71,5 +71,19 @@
     <ClInclude Include="teamselect.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="save.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saveread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saveread2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="info.bin">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
