@@ -10,8 +10,9 @@
 #include "teamselect.h"
 #include "save.h"
 #include "saveread.h"
+#include"ask.h"
 
-void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_size,bool continu)
+void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_size, bool continu)
 {
 	Dice dic;
 	sf::RectangleShape shape1(sf::Vector2f(48.0f, 38.0f));
@@ -147,7 +148,7 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 	sf::Clock clk;
 	sf::Sprite dicee(dice);
 	dicee.setPosition(1350.f, 680.f);
-
+	dicee.setScale(0.5f, 0.5f);
 	vector<sf::Sprite*> pieceSprites = { &sprite1_y, &sprite2_y, &sprite3_y, &sprite4_y, &sprite1_o, &sprite2_o, &sprite3_o, &sprite4_o, &sprite1_r, &sprite2_r, &sprite3_r, &sprite4_r, &sprite1_p, &sprite2_p, &sprite3_p, &sprite4_p, &sprite1_b, &sprite2_b, &sprite3_b, &sprite4_b, &sprite1_g, &sprite2_g, &sprite3_g, &sprite4_g };
 	vector<sf::Sprite*> pieceSprites_temp;
 	vector<sf::Sprite*> playerSprites = { &player1,&player2, &player3, &player4, &player5, &player6 };
@@ -156,7 +157,7 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 	int turn = 0;
 
 	if (continu)
-		save_read(team_size,playernum, piecenum, turn);
+		save_read(team_size, playernum, piecenum, turn);
 	board b = main1(playernum, piecenum);
 	if (continu)
 		save_read2(b);
@@ -207,9 +208,9 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 		if (nextplayer && team_turn == team_size)
 		{
 			playerPiece.clear();
-			for(int te=0;te<team_size;te++)
+			for (int te = 0; te < team_size; te++)
 				for (int i = 0; i < piecenum; i++)
-					playerPiece.push_back(pieceSprites_temp[(turn+te)*piecenum + i]);
+					playerPiece.push_back(pieceSprites_temp[(turn + te) * piecenum + i]);
 			team_turn = 0;
 			nextplayer = false;
 		}
@@ -232,7 +233,8 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 		{
 			if (event.type == sf::Event::Closed && dic.Dice_Num() == 0)
 			{
-				save(b,team_size,piecenum,turn);
+				if (askForSave())
+					save(b, team_size, piecenum, turn);
 				window.close();
 			}
 		}
@@ -246,7 +248,7 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 				int playerIndex = index / piecenum;
 				if (playerIndex == turn)
 					continue;
-				else if (team_size == 2 && team_turn==0 && playerIndex == turn+1)
+				else if (team_size == 2 && team_turn == 0 && playerIndex == turn + 1)
 					continue;
 				else if (team_size == 2 && team_turn == 1 && playerIndex == turn - 1)
 					continue;
@@ -257,15 +259,15 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 					auto& pieces = *playerss[playerIndex].getpieces();
 					if (playerss[playerIndex][pieces[pieceIndex].getCurrent()].stop)
 						continue;
-						pieces[pieceIndex].open_change(false);
-						pieces[pieceIndex].current_change(0);
-						allow = true;
-						break;
-					
+					pieces[pieceIndex].open_change(false);
+					pieces[pieceIndex].current_change(0);
+					allow = true;
+					next = false;
+					break;
 				}
 			}
 		}
-		if ((next && !allow) || dic.Dice_Num() > 3 || playerss[turn].get_pos()!=0)
+		if ((next && !allow) || dic.Dice_Num() > 3 || playerss[turn].get_pos() != 0)
 		{
 			turn++;
 			team_turn++;
@@ -280,7 +282,7 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			sf::Vector2f mouse = window.mapPixelToCoords(sf::Mouse::getPosition(window));
-			
+
 			sf::FloatRect bounds_dic1 = dic1.getGlobalBounds();
 			sf::FloatRect bounds_dic2 = dic2.getGlobalBounds();
 			sf::FloatRect bounds_dic3 = dic3.getGlobalBounds();
@@ -293,7 +295,7 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 
 			if (allow)
 			{
-				sf::FloatRect bounds_dice = dicee.getGlobalBounds();
+				sf::FloatRect bounds_dice = dicee1.getGlobalBounds();
 				if (bounds_dice.contains(mouse) && !isAnimating)
 				{
 					diceAnimationTimer.restart();
@@ -344,6 +346,7 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 								{
 									pieces[pieceIndex].finsih_change(true);
 									allow = true;
+									next = false;
 								}
 							}
 						}
@@ -369,7 +372,7 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 					break;
 				if (team_size == 2 && team_turn == 0)
 				{
-					auto& pieces_check = *playerss[turn+1].getpieces();
+					auto& pieces_check = *playerss[turn + 1].getpieces();
 					if (pieces_check[c].openn())
 						break;
 				}
@@ -398,12 +401,12 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 		{
 			if (!pieces_check[i].get_finish())
 				break;
-			if (i == piecenum - 1 && playerss[turn].get_pos()==0)
+			if (i == piecenum - 1 && playerss[turn].get_pos() == 0)
 				playerss[turn].set_pos(position++);
 		}
 		if (position == playernum)
 			break;
-		if (diceAnimationTimer.getElapsedTime().asSeconds() <= 0.3f && isAnimating)
+		if (diceAnimationTimer.getElapsedTime().asSeconds() <= 0.9f && isAnimating)
 		{
 			animate.update(0, deltatime);//xyz
 			dicee.setTextureRect(animate.uvrect);//xyz
@@ -438,22 +441,4 @@ void startGame(sf::RenderWindow& window, int playernum, int piecenum, int team_s
 		}
 		window.display();
 	}
-}
-int main()
-{
-	int playernum = 6;
-	int piecenum = 3;
-	int team_size = 1;
-	bool continu = false;
-	sf::RenderWindow window(sf::VideoMode(1700, 950), "LUDO", sf::Style::Close);
-	StartScreen(window,continu);
-	if (!continu)
-	{
-		PlayerSelect(window,playernum);
-		PieceSelect(window,piecenum);
-	if(playernum == 4 || playernum == 6)
-		SingMultSelect(window, team_size);
-	}
-	startGame(window, playernum, piecenum,team_size,continu);
-	return 0;
 }

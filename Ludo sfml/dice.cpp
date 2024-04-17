@@ -7,12 +7,12 @@ Dice::Dice()
 int Dice::roll()
 {
     int val;
-    //if (dice_val.size() == 0)
-    //    val = 6;
-    //if (dice_val.size() == 1)
-    //    val = 6;
-    //if (dice_val.size() == 2)
-    //    val = 1;
+    /*if (dice_val.size() == 0)
+        val = 6;
+    if (dice_val.size() == 1)
+        val = 6;
+    if (dice_val.size() == 2)
+        val = 1;*/
     val = rand() % 6 + 1;
     dice_val.push_back(val);
     return val;

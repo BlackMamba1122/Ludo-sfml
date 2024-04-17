@@ -142,18 +142,20 @@ sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="a.cpp" />
     <ClCompile Include="animation.cpp" />
     <ClCompile Include="boad.cpp" />
     <ClCompile Include="dice.cpp" />
     <ClCompile Include="Ludo sfml.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="piece.cpp" />
     <ClCompile Include="player.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="animation.h" />
+    <ClInclude Include="ask.h" />
     <ClInclude Include="boad.h" />
     <ClInclude Include="dice.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="initial.h" />
     <ClInclude Include="piece.h" />
     <ClInclude Include="pieceselect.h" />
@@ -162,6 +164,7 @@ sfml-audio-s.lib;%(AdditionalDependencies)</AdditionalDependencies>
     <ClInclude Include="save.h" />
     <ClInclude Include="saveread.h" />
     <ClInclude Include="saveread2.h" />
+    <ClInclude Include="Source.h" />
     <ClInclude Include="startscreen.h" />
     <ClInclude Include="teamselect.h" />
     <ClInclude Include="type.h" />
